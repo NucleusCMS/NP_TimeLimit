@@ -19,28 +19,26 @@ class NP_TimeLimit extends NucleusPlugin {
 	
 	function getEventList() {return array('PreItem');}
 	function event_PreItem($data) {
-		$startlimit = "@<timelimit\(([a-z]+),([-:T0-9]+)\)>(.*?)</timelimit>@s";
+		$startlimit = "@<timelimit\(([^\)]+)\)>(.*?)</timelimit>@s";
 		$this->currentItem = &$data["item"];
 		$this->currentItem->body = preg_replace_callback($startlimit, array(&$this, '_checklimit'), $this->currentItem->body);
 		$this->currentItem->more = preg_replace_callback($startlimit, array(&$this, '_checklimit'), $this->currentItem->more);
 	}
 	
 	function _checklimit($matches) {
-		$now = date("Y-m-d\TH:i:s");
-		$limit = $matches['2'];
-		switch ($matches['1']) {
-			case 'start':
-				if($now < $limit) $iparts = '';
-				else              $iparts = $matches['3'];
-				break;
-			case 'end':
-				if($now > $limit) $iparts = '';
-				else              $iparts = $matches['3'];
-				break;
-			default:
-				$iparts = '';
-				break;
-		}
+		list($mode, $expire) = explode(',', $matches['1'], 2);
+		if(strpos($expire,'T')!==false) $expire = str_replace('T',' ',$expire);
+		$expire = strtotime($expire);
+		
+		$now = time();
+		if(
+			($mode==='start' && $expire < $now)
+			||
+			($mode==='end'   && $now < $expire)
+		  )
+			$iparts = $matches['2'];
+		else $iparts = '';
+		
 		return($iparts);
 	}
 }
