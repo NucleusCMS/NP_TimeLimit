@@ -1,21 +1,10 @@
 <?php
 class NP_TimeLimit extends NucleusPlugin {
 
-	function getName() {
-		return 'Time Limit';
-	}
-
-	function getAuthor() {
-		return 'pushman';
-	}
-
-	function getURL() {
-		return 'http://blog.heartfield-web.com/download/NP_TimeLimit.html';
-	}
-
-	function getVersion() {
-		return '0.1';
-	}
+	function getName()      {return 'Time Limit';}
+	function getAuthor()    {return 'pushman';}
+	function getURL()       {return 'http://blog.heartfield-web.com/download/NP_TimeLimit.html';}
+	function getVersion()   {return '0.1';}
 
 	function getDescription() { 
 		// include language file for this plugin
@@ -27,18 +16,15 @@ class NP_TimeLimit extends NucleusPlugin {
 		}
 		return _TIMELIMIT_Description;
 	}
-
-	function getEventList() {
-		return array('PreItem');
-	}
-
+	
+	function getEventList() {return array('PreItem');}
 	function event_PreItem($data) {
-		$startlimit = "/<timelimit\(([a-z]+),([-:T0-9]+)\)>(.*?)<\/timelimit>/s";
+		$startlimit = "@<timelimit\(([a-z]+),([-:T0-9]+)\)>(.*?)</timelimit>@s";
 		$this->currentItem = &$data["item"];
 		$this->currentItem->body = preg_replace_callback($startlimit, array(&$this, '_checklimit'), $this->currentItem->body);
 		$this->currentItem->more = preg_replace_callback($startlimit, array(&$this, '_checklimit'), $this->currentItem->more);
 	}
-
+	
 	function _checklimit($matches) {
 		$now = date("Y-m-d\TH:i:s");
 		$limit = $matches['2'];
@@ -57,5 +43,4 @@ class NP_TimeLimit extends NucleusPlugin {
 		}
 		return($iparts);
 	}
-
 }
