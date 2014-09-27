@@ -78,4 +78,3 @@ class NP_TimeLimit extends NucleusPlugin {
 	}
 
 }
-?>
