@@ -44,18 +44,12 @@ class NP_TimeLimit extends NucleusPlugin {
 		$limit = $matches['2'];
 		switch ($matches['1']) {
 			case 'start':
-				if($now < $limit) {
-					$iparts = '';
-				} else {
-					$iparts = $matches['3'];
-				}
+				if($now < $limit) $iparts = '';
+				else              $iparts = $matches['3'];
 				break;
 			case 'end':
-				if($now > $limit) {
-					$iparts = '';
-				} else {
-					$iparts = $matches['3'];
-				}
+				if($now > $limit) $iparts = '';
+				else              $iparts = $matches['3'];
 				break;
 			default:
 				$iparts = '';
