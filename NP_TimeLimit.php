@@ -21,16 +21,6 @@ class NP_TimeLimit extends NucleusPlugin {
 		return _TIMELIMIT_Description;
 	}
 
-	//put in support for SqlTablePrefix, needed in 2.0
-	function supportsFeature($feature) {
-		switch($feature) {
-			case 'SqlTablePrefix':
-				return 1;
-			default:
-				return 0;
-		}
-	}
-
 	function init() { 
 		// include language file for this plugin
 		$language = str_replace( array('\\','/'), '', getLanguageName());
