@@ -18,10 +18,6 @@ class NP_TimeLimit extends NucleusPlugin {
 	}
 
 	function getDescription() { 
-		return _TIMELIMIT_Description;
-	}
-
-	function init() { 
 		// include language file for this plugin
 		$language = str_replace( array('\\','/'), '', getLanguageName());
 		if (is_file($this->getDirectory().$language.'.php')) {
@@ -29,6 +25,7 @@ class NP_TimeLimit extends NucleusPlugin {
 		} else {
 			include_once($this->getDirectory().'english.php');
 		}
+		return _TIMELIMIT_Description;
 	}
 
 	function getEventList() {
